@@ -32,7 +32,6 @@ for video in videos:
         "link": make_link(href)
     }
 
-    print(video)
     video_objects.append(video)
 
 videos_df = pd.DataFrame(video_objects)
