@@ -2,6 +2,8 @@ from requests_html import HTMLSession
 from sys import argv
 import pandas as pd
 
+from get_video_count import *
+
 URL = "https://www.youtube.com"
 session = HTMLSession()
 channel_id = ""
@@ -13,9 +15,11 @@ except IndexError:
 def make_link(href: str) -> str:
     return f"{URL}/{href}"
 
-site = session.get(f"{URL}/{channel_id}/videos")
-site.html.render(sleep=1, keep_page=True, scrolldown=250)
+VIDEO_COUNT_FACTOR = 0.333
+scrolldown = round(get_video_count(channel_id) * VIDEO_COUNT_FACTOR)
 
+site = session.get(f"{URL}/{channel_id}/videos")
+site.html.render(sleep=2, keep_page=True, scrolldown=scrolldown)
 video_objects = []
 
 videos = site.html.xpath('//*[@id="video-title-link"]')
